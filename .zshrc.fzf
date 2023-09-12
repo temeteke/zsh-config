@@ -1,0 +1,2 @@
+test -f ${XDG_CONFIG_HOME:-$HOME/.config}/fzf/fzf.zsh && . $_
+test -f ${XDG_CONFIG_HOME:-$HOME/.config}/fzf/preview.sh && . $_

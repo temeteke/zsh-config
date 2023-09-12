@@ -4,7 +4,7 @@ FILES := .zshenv .zshrc
 .PHONY: all clean install uninstall FORCE
 all: .zshrc
 
-ZSHRCS := .zshrc.misc
+ZSHRCS := .zshrc.misc .zshrc.fzf
 ifneq ($(shell which starship 2>/dev/null),)
 	ZSHRCS := $(ZSHRCS) .zshrc.starship
 endif

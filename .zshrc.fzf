@@ -1,2 +1,7 @@
 test -f ${XDG_CONFIG_HOME:-$HOME/.config}/fzf/fzf.zsh && . $_
 test -f ${XDG_CONFIG_HOME:-$HOME/.config}/fzf/preview.sh && . $_
+
+if [ -f ${XDG_CONFIG_HOME:-$HOME/.config}/fzf/fzf-zsh-completion.sh ]; then
+    . ${XDG_CONFIG_HOME:-$HOME/.config}/fzf/fzf-zsh-completion.sh
+    bindkey '^I' fzf_completion
+fi

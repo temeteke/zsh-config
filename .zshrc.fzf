@@ -5,3 +5,16 @@ if [ -f ${XDG_CONFIG_HOME:-$HOME/.config}/fzf/fzf-zsh-completion.sh ]; then
     . ${XDG_CONFIG_HOME:-$HOME/.config}/fzf/fzf-zsh-completion.sh
     bindkey '^I' fzf_completion
 fi
+
+# searching display strings
+zstyle ':completion:*' fzf-search-display true
+
+# basic file preview for ls
+if type bat > /dev/null 2>&1; then
+    zstyle ':completion::*:ls::*' fzf-completion-opts --preview='eval bat -n --color=always {1} 2>/dev/null || eval ls {1}'
+else
+    zstyle ':completion::*:ls::*' fzf-completion-opts --preview='eval cat {1} 2>/dev/null || eval ls {1}'
+fi
+
+# preview when completing env vars
+zstyle ':completion::*:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-completion-opts --preview='eval eval echo {1}'

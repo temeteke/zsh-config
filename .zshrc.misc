@@ -9,3 +9,4 @@ bindkey '^O' kill-line
 
 autoload -Uz compinit
 compinit
+zstyle ':completion:*' menu select

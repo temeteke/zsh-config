@@ -8,6 +8,9 @@ ZSHRCS := .zshrc.misc .zshrc.fzf shell-config/alias.sh
 ifneq ($(shell which starship 2>/dev/null),)
 	ZSHRCS := $(ZSHRCS) .zshrc.starship
 endif
+ifneq ($(shell which kubectl 2>/dev/null),)
+	ZSHRCS := $(ZSHRCS) .zshrc.kubectl
+endif
 
 .zshrc: $(ZSHRCS)
 	cat $^ > $@

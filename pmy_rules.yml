@@ -1,0 +1,8 @@
+- description: フォルダならtree ファイルなら中身をbatしながらパスの補完
+  regexp-left: ^(?P<body>.*?)(?P<path>(~/){0,1}(\S*/)+)(?P<query>\S*)$
+  cmd-groups:
+    - stmt: command ls -anlhF <path>
+      after: awk '{print $9}'
+  fuzzy-finder-cmd: fzf -0 -1 -q '<query>' --ansi --header-lines 1 -n 9 --preview 'if [[ {9} == */ ]] ; then tree -C -L 3 <path>{9}; else bat --color=always <path>{9}; fi'
+  buffer-left: <body><path>
+  buffer-right: '[]'

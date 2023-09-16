@@ -1,8 +1,33 @@
-- description: フォルダならtree ファイルなら中身をbatしながらパスの補完
-  regexp-left: ^(?P<body>.*?)(?P<path>(~/){0,1}(\S*/)+)(?P<query>\S*)$
+- description: kubectl <command> <name>
+  regexp-left: ^kubectl\s(?P<options>((-\S+\s?\S+)\s)+)*(?P<command>(logs))\s*(?P<name>\S*)?$
   cmd-groups:
-    - stmt: command ls -anlhF <path>
-      after: awk '{print $9}'
-  fuzzy-finder-cmd: fzf -0 -1 -q '<query>' --ansi --header-lines 1 -n 9 --preview 'if [[ {9} == */ ]] ; then tree -C -L 3 <path>{9}; else bat --color=always <path>{9}; fi'
+    - stmt: kubectl <options> get pods
+      after: awk '{print $1}'
+  fuzzy-finder-cmd: fzf -0 -1 -q '<name>' --header-lines 1 --preview 'kubectl <options> describe pods {1}'
+  buffer-left: kubectl <options><command> <name>
+  buffer-right: '[]'
+
+- description: kubectl <command> <type> <name>
+  regexp-left: ^kubectl\s(?P<options>((-\S+\s?\S+)\s)+)*(?P<command>(get|describe))\s*(?P<type>(pods))\s*(?P<name>\S*)?$
+  cmd-groups:
+    - stmt: kubectl <options> get <type>
+      after: awk '{print $1}'
+  fuzzy-finder-cmd: fzf -0 -1 -q '<name>' --header-lines 1 --preview 'kubectl <options> describe <type> {1}'
+  buffer-left: kubectl <options><command> <type> <name>
+  buffer-right: '[]'
+
+- regexp-left: ^(?P<body>.*?)(?P<path>~{0,1}([0-9A-Za-z_\-.]*/)+)(?P<query>[0-9A-Za-z_\-.]*)$
+  cmd-groups:
+  - stmt: \ls -Alh --color=always --time-style=long-iso <path> | tail -n +2
+    after: awk '{print $8}'
+  fuzzy-finder-cmd: fzf -0 -1 -q '<query>' --ansi -n8 --preview 'bat -n --color=always <path>{8} 2>/dev/null || ls -AlFG --color=always <path>{8}'
   buffer-left: <body><path>
+  buffer-right: '[]'
+
+- regexp-left: ^(?P<body>.*?) (?P<query>[0-9A-Za-z_\-.]*)$
+  cmd-groups:
+  - stmt: \ls -Alh --color=always --time-style=long-iso | tail -n +2
+    after: awk '{print $8}'
+  fuzzy-finder-cmd: fzf -0 -1 -q '<query>' --ansi -n8 --preview 'bat -n --color=always {8} 2>/dev/null || ls -AlFG --color=always {8}'
+  buffer-left: '<body> '
   buffer-right: '[]'

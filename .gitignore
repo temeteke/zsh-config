@@ -1,2 +1,5 @@
 .zshrc
 shell-config
+pmy
+pmy_*.tar.gz
+pmy_env

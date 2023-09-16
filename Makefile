@@ -1,7 +1,7 @@
 ZDOTDIR ?= $(HOME)
 FILES := .zshenv .zshrc
 
-PMY_VERSION := $(shell url=$$(curl -s -w '%{redirect_url}' https://github.com/relastle/pmy/releases/latest); echo $${url##*v})
+PMY_VERSION := $(subst https://github.com/relastle/pmy/releases/tag/v,,$(shell curl -s -w '%{redirect_url}' https://github.com/relastle/pmy/releases/latest))
 PMY_TARGET := Linux_x86_64
 PMY_TAR_NAME := pmy_$(PMY_VERSION)_$(PMY_TARGET)
 PMY_TAR_FILE := $(PMY_TAR_NAME).tar.gz

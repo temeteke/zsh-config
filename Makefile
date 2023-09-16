@@ -46,10 +46,10 @@ clean:
 	rm -f .zshrc pmy $(PMY_TAR_FILE) pmy_env
 
 install: $(FILES) pmy
-	cp $(FILES) $(PREFIX)/
-	cp pmy ~/.local/bin/
+	cp -a $(FILES) $(PREFIX)/
+	cp -a pmy ~/.local/bin/
 	mkdir -p $(PMY_RULE_PATH)
-	cp pmy_rules.yml $(PMY_RULE_PATH)
+	cp -a pmy_rules.yml $(PMY_RULE_PATH)
 
 uninstall:
 	rm -f $(addprefix $(PREFIX)/, $(FILES))

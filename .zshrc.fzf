@@ -11,10 +11,11 @@ zstyle ':completion:*' fzf-search-display true
 
 # basic file preview for ls
 if type bat > /dev/null 2>&1; then
-    zstyle ':completion::*:ls::*' fzf-completion-opts --preview='eval bat -n --color=always {1} 2>/dev/null || eval \ls -Ahl --color=always --time-style=long-iso {1}'
+    zstyle ':completion::*:(cat|bat|ls|vim|nvim)::*' fzf-completion-opts --preview='eval bat -n --color=always {1} 2>/dev/null || eval \ls -Ahl --color=always --time-style=long-iso {1}'
 else
-    zstyle ':completion::*:ls::*' fzf-completion-opts --preview='eval cat {1} 2>/dev/null || eval \ls -Ahl --color=always --time-style=long-iso {1}'
+    zstyle ':completion::*:(cat|bat|ls|vim|nvim)::*' fzf-completion-opts --preview='eval cat {1} 2>/dev/null || eval \ls -Ahl --color=always --time-style=long-iso {1}'
 fi
+zstyle ':completion::*:cd::*' fzf-completion-opts --preview='eval \ls -Ahl --color=always --time-style=long-iso {1}'
 
 # preview when completing env vars
 zstyle ':completion::*:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-completion-opts --preview='eval eval echo {1}'

@@ -1,7 +1,7 @@
 PREFIX := ~
 FILES := .zshenv .zshrc
 
-PMY_VERSION := 0.7.0
+PMY_VERSION := $(shell url=$$(curl -s -w '%{redirect_url}' https://github.com/relastle/pmy/releases/latest); echo $${url##*v})
 PMY_TARGET := Linux_x86_64
 PMY_TAR_NAME := pmy_$(PMY_VERSION)_$(PMY_TARGET)
 PMY_TAR_FILE := $(PMY_TAR_NAME).tar.gz
@@ -13,7 +13,7 @@ PMY_SNIPPET_PATH := $(XDG_CONFIG_HOME)/pmy/snippets
 PMY_LOG_PATH := $(XDG_CACHE_HOME)/pmy/log.txt
 
 .PHONY: all clean install uninstall FORCE
-all: .zshrc
+all: .zshrc pmy
 
 ZSHRCS := .zshrc.misc .zshrc.fzf shell-config/alias.sh pmy_env .zshrc.pmy
 ifneq ($(shell which starship 2>/dev/null),)
@@ -31,11 +31,11 @@ shell-config/alias.sh: shell-config
 shell-config: FORCE
 	git clone --depth 1 https://github.com/temeteke/shell-config.git $@ 2> /dev/null || git -C $@ pull
 
-pmy: $(PMY_TAR_FILE)
+pmy: | $(PMY_TAR_FILE)
 	tar -xf $< pmy
 
 $(PMY_TAR_FILE):
-	curl -L -o $@ $(PMY_TAR_URL)
+	curl -LR -o $@ $(PMY_TAR_URL)
 
 pmy_env:
 	echo export PMY_RULE_PATH="$(PMY_RULE_PATH)" > $@

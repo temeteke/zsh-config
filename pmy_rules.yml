@@ -20,7 +20,7 @@
   cmd-groups:
   - stmt: \ls -Alh --color=always --time-style=long-iso <path> | tail -n +2
     after: awk '{print $8}'
-  fuzzy-finder-cmd: fzf -0 -1 -q '<query>' --ansi -n8 --preview 'bat -n --color=always <path>{8} 2>/dev/null || ls -AlFG --color=always <path>{8}'
+  fuzzy-finder-cmd: fzf -0 -1 -q '<query>' --ansi -n8 --preview 'bat -n --color=always <path>{8} 2>/dev/null || ls -Alh --color=always --time-style=long-iso <path>{8}'
   buffer-left: <body><path>
   buffer-right: '[]'
 
@@ -28,6 +28,6 @@
   cmd-groups:
   - stmt: \ls -Alh --color=always --time-style=long-iso | tail -n +2
     after: awk '{print $8}'
-  fuzzy-finder-cmd: fzf -0 -1 -q '<query>' --ansi -n8 --preview 'bat -n --color=always {8} 2>/dev/null || ls -AlFG --color=always {8}'
+  fuzzy-finder-cmd: fzf -0 -1 -q '<query>' --ansi -n8 --preview 'bat -n --color=always {8} 2>/dev/null || ls -Alh --color=always --time-style=long-iso {8}'
   buffer-left: '<body> '
   buffer-right: '[]'

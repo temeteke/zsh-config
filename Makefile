@@ -1,5 +1,5 @@
 ZDOTDIR ?= $(HOME)
-BIN_DIR ?= $(HOME)/.local/bin/
+BIN_DIR ?= $(HOME)/.local/bin
 XDG_CONFIG_HOME ?= $(HOME)/.config
 
 FILES := .zshenv .zshrc

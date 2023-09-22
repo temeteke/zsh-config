@@ -16,7 +16,7 @@ PMY_LOG_PATH := $(XDG_CACHE_HOME)/pmy/log.txt
 .PHONY: all clean install uninstall FORCE
 all: .zshrc pmy
 
-ZSHRCS := .zshrc.misc .zshrc.fzf shell-config/alias.sh pmy_env .zshrc.pmy
+ZSHRCS := .zshrc.misc .zshrc.fzf shell-config/alias.sh pmy_env .zshrc.pmy .zshrc.cursor
 ifneq ($(shell which starship 2>/dev/null),)
 	ZSHRCS := $(ZSHRCS) .zshrc.starship
 endif

@@ -1,6 +1,7 @@
 ZDOTDIR ?= $(HOME)
 BIN_DIR ?= $(HOME)/.local/bin
 XDG_CONFIG_HOME ?= $(HOME)/.config
+XDG_CACHE_HOME ?= $(HOME)/.cache
 
 FILES := .zshenv .zshrc
 
@@ -14,6 +15,7 @@ PMY_SNIPPET_PATH := $(XDG_CONFIG_HOME)/pmy/snippets
 PMY_LOG_PATH := $(XDG_CACHE_HOME)/pmy/log.txt
 
 .PHONY: all clean install uninstall FORCE
+.PHONY: install-zsh install-pmy uninstall-zsh uninstall-pmy
 all: .zshrc pmy
 
 ZSHRCS := .zshrc.misc .zshrc.fzf shell-config/alias.sh pmy_env .zshrc.pmy .zshrc.cursor
@@ -53,7 +55,6 @@ install-zsh: $(FILES) $(ZDOTDIR)
 	cp -a $(FILES) $(ZDOTDIR)/
 
 install-pmy: pmy $(BIN_DIR)
-	mkdir -p $(BIN_DIR)
 	cp -a pmy $(BIN_DIR)/
 	mkdir -p $(PMY_RULE_PATH)
 	cp -a pmy_rules.yml $(PMY_RULE_PATH)/
@@ -64,7 +65,10 @@ uninstall-zsh:
 	rm -f $(addprefix $(ZDOTDIR)/, $(FILES))
 
 uninstall-pmy:
-	rm -f ~/.local/bin/pmy
+	rm -f $(BIN_DIR)/pmy
 	rm -fr $(PMY_RULE_PATH)
+
+$(BIN_DIR):
+	mkdir -p $@
 
 FORCE:

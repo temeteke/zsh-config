@@ -14,8 +14,9 @@ PMY_RULE_PATH := $(XDG_CONFIG_HOME)/pmy/rules
 PMY_SNIPPET_PATH := $(XDG_CONFIG_HOME)/pmy/snippets
 PMY_LOG_PATH := $(XDG_CACHE_HOME)/pmy/log.txt
 
-.PHONY: all clean install uninstall FORCE
-.PHONY: install-zsh install-pmy uninstall-zsh uninstall-pmy
+.PHONY: all clean install install-config install-bin uninstall uninstall-config uninstall-bin FORCE
+.PHONY: install-zsh install-pmy install-pmy-config install-pmy-bin
+.PHONY: uninstall-zsh uninstall-pmy uninstall-pmy-config uninstall-pmy-bin
 all: .zshrc pmy
 
 ZSHRCS := .zshrc.misc .zshrc.fzf shell-config/alias.sh pmy_env .zshrc.pmy .zshrc.cursor
@@ -48,25 +49,41 @@ pmy_env:
 clean:
 	rm -f .zshrc pmy $(PMY_TAR_FILE) pmy_env
 
-install: install-zsh install-pmy
+install: install-bin install-config
+
+install-config: install-zsh install-pmy-config
+
+install-bin: install-pmy-bin
 
 install-zsh: $(FILES) $(ZDOTDIR)
 	mkdir -p $(ZDOTDIR)
 	cp -a $(FILES) $(ZDOTDIR)/
 
-install-pmy: pmy $(BIN_DIR)
-	cp -a pmy $(BIN_DIR)/
+install-pmy: install-pmy-bin install-pmy-config
+
+install-pmy-config:
 	mkdir -p $(PMY_RULE_PATH)
 	cp -a pmy_rules.yml $(PMY_RULE_PATH)/
 
-uninstall: uninstall-zsh uninstall-pmy
+install-pmy-bin: pmy $(BIN_DIR)
+	cp -a pmy $(BIN_DIR)/
+
+uninstall: uninstall-config uninstall-bin
+
+uninstall-config: uninstall-zsh uninstall-pmy-config
+
+uninstall-bin: uninstall-pmy-bin
 
 uninstall-zsh:
 	rm -f $(addprefix $(ZDOTDIR)/, $(FILES))
 
-uninstall-pmy:
-	rm -f $(BIN_DIR)/pmy
+uninstall-pmy: uninstall-pmy-config uninstall-pmy-bin
+
+uninstall-pmy-config:
 	rm -fr $(PMY_RULE_PATH)
+
+uninstall-pmy-bin:
+	rm -f $(BIN_DIR)/pmy
 
 $(BIN_DIR):
 	mkdir -p $@
